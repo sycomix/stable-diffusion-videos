@@ -10,7 +10,7 @@ from .upsampling import RealESRGANModel
 
 def get_all_files(root: Path):
     dirs = [root]
-    while len(dirs) > 0:
+    while dirs:
         dir = dirs.pop()
         for candidate in dir.iterdir():
             if candidate.is_file():
@@ -192,9 +192,7 @@ def generate_images(
                 output_type="pil" if not upsample else "numpy",
             )['images']
             if upsample:
-                images = []
-                for output in outputs:
-                    images.append(pipeline.upsampler(output))
+                images = [pipeline.upsampler(output) for output in outputs]
             else:
                 images = outputs
 
@@ -205,6 +203,3 @@ def generate_images(
             frame_index += 1
 
     return frame_filepaths
-
-    if push_to_hub:
-        upload_folder_chunked(repo_id, save_path, private=private, create_pr=create_pr)

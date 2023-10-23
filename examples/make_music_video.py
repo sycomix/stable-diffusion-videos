@@ -7,13 +7,13 @@ import torch
 
 pipe = StableDiffusionWalkPipeline.from_pretrained(
     'runwayml/stable-diffusion-v1-5',
-    vae=AutoencoderKL.from_pretrained(f"stabilityai/sd-vae-ft-ema"),
+    vae=AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-ema"),
     torch_dtype=torch.float16,
     revision="fp16",
     safety_checker=None,
     scheduler=LMSDiscreteScheduler(
         beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear"
-    )
+    ),
 ).to("cuda")
 
 
